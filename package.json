@@ -1,0 +1,15 @@
+{
+  "name": "aq-marketplace",
+  "version": "1.0.0",
+  "description": "Cognizant Prompt Library Marketplace CLI for Amazon Q Developer",
+  "main": "index.js",
+  "bin": {
+    "aq-marketplace": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["amazon-q", "mcp", "prompt-library", "cognizant"],
+  "author": "Cognizant",
+  "license": "ISC"
+}
