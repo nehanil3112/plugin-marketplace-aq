@@ -284,7 +284,7 @@ async function cmdConnect(repoUrl) {
   }
   ensureDir(CONFIG_DIR);
   fs.writeFileSync(CACHE_FILE, data, 'utf8');
-  const mkt = JSON.parse(data);
+  const mkt = JSON.parse(data.replace(/^﻿/, ''));
   const rawBase = toRawBase(repoUrl);
   writeConfig({ remote_url: repoUrl, raw_base: rawBase, last_updated: new Date().toISOString() });
   console.log('OK');
@@ -306,7 +306,7 @@ async function cmdUpdate() {
   try {
     const data = await fetchUrl(rawUrl);
     fs.writeFileSync(CACHE_FILE, data, 'utf8');
-    const mkt = JSON.parse(data);
+    const mkt = JSON.parse(data.replace(/^﻿/, ''));
     writeConfig({ ...cfg, last_updated: new Date().toISOString() });
     console.log('OK');
     console.log(`  Plugins: ${mkt.total_plugins}  |  Skills: ${mkt.total_skills}  |  Agents: ${mkt.total_agents}`);
@@ -631,20 +631,10 @@ Cognizant Prompt Library — Amazon Q Marketplace CLI
 USAGE
   aq-marketplace <command> [options]
 
-SERVER SETUP (recommended — no GitHub skills needed)
-  set-server <url>                  Point CLI at your hosted MCP server
-  login                             Show how to get your auth token
-  set-token  <token>                Save your auth token
-
-FOR PUBLISHERS (run before pushing to GitHub)
-  bundle                            Copy skills into npm package
-
-REMOTE REPO SETUP
+REPO SETUP
   connect  <repo-url>               Connect to a GitHub marketplace repo
   update                            Refresh marketplace from remote repo
-
-STATUS
-  status                            Show current mode (server/repo/local)
+  status                            Show current connection status
 
 BROWSING
   list                              List all available plugins
@@ -657,26 +647,22 @@ INSTALL
   uninstall <plugin-id>             Remove an installed plugin
 
 MCP SETUP
-  init     [dir]                    Register MCP server in .amazonq/mcp.json
+  init     [dir]                    Register stdio MCP server in Amazon Q
 
-EXAMPLES — Server workflow (skills fetched from your hosted server)
-  aq-marketplace set-server http://your-server:8000 <token>
+EXAMPLES — End-to-end workflow
+  aq-marketplace connect https://github.com/your-org/your-repo
   aq-marketplace list
-  aq-marketplace install pl-sdlc
+  aq-marketplace install demo-utilities
+  aq-marketplace init
 
-EXAMPLES — GitHub repo workflow
-  aq-marketplace connect https://github.com/your-org/prompt-library-mcp
-  aq-marketplace install pl-sdlc
-
-IN AMAZON Q CHAT (after install)
-  @pl-sdlc                    invoke the SDLC plugin
-  @pl-jira-userstory          JIRA user story agent
-  @pl-test-rewriter           Test rewriter agent
+IN AMAZON Q CHAT (after install — type @ in chat)
+  @demo-utilities             plugin wrapper (lists skills)
+  @demo-greeter               agent
 
 IN AMAZON Q CHAT (after init — MCP tools)
   "list all prompt library plugins"
   "search for AWS skills"
-  "get the SDLC dev skill"
+  "show me details of pl-sdlc"
 `);
   }
 })();
