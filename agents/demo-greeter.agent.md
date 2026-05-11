@@ -14,7 +14,7 @@ What it will do
 - Print a one-line greeting that includes the user's current working directory.
 - Detect the language of the currently open file (if any) and mention it.
 - List the four demo skills that ship with this plugin: hello-world, generate-readme, code-comments, format-json.
-- Tell the user how to invoke each one.
+- Explain how skills work: skills live in `~/.aws/amazonq/rules/` and are loaded as background context. They are NOT invoked via `@`. Instead, the user describes the task in plain English (for example, "format this JSON") and Amazon Q applies the matching skill automatically.
 
 Inputs
 - None required. Optionally accepts a `name` argument so the greeting addresses the user by name.
@@ -33,11 +33,16 @@ Example
   ```
   Hello! You are working in c:\projects\demo. Detected language: TypeScript.
 
-  Demo skills available:
+  Demo skills available (loaded as background context, not invoked via @):
   - DEMO_Hello_World     - print a friendly greeting
   - DEMO_Generate_README - generate a README for this project
   - DEMO_Code_Comments   - add explanatory comments to selected code
   - DEMO_Format_JSON     - format and validate a JSON snippet
+
+  To use a skill, just describe your task in chat. Examples:
+  - "Print hello world for the file I have open"
+  - "Format this JSON: {a:1,b:2}"
+  - "Add comments to my selected code"
   ```
 
 Notes

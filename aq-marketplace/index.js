@@ -407,9 +407,10 @@ function generatePluginAgent(plugin) {
     ? `Describe your task and this plugin will apply the most relevant skill. Examples:\n${examples}`
     : `Describe your task and this plugin will apply the most relevant skill.`;
 
-  return `---
-name: ${plugin.id}
-description: "[Marketplace Plugin] ${plugin.name} — ${plugin.skills.length} skills. ${plugin.description}"
+  return `\`\`\`chatagent
+---
+description: '[Marketplace Plugin] ${plugin.name} — ${plugin.skills.length} skills. ${plugin.description.replace(/'/g, "\\'")}'
+tools: []
 ---
 
 # ${plugin.name}
@@ -427,6 +428,7 @@ ${builtinAgents}
 ## Available Skills (${plugin.skills.length})
 
 ${skillNames}
+\`\`\`
 `;
 }
 
